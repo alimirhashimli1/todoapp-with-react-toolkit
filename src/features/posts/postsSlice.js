@@ -55,7 +55,7 @@ const postsSlice = createSlice({
     },
   },
   extraReducers(builder){
-    builder.addCase(fetchPosts .pending, (state, action) => {
+    builder.addCase(fetchPosts.pending, (state, action) => {
         state.status = "loading"
     })
     .addCase(fetchPosts.fulfilled, (state, action) => {
@@ -83,5 +83,7 @@ const postsSlice = createSlice({
 });
 
 export const selectAllPosts = (state) => state.posts.posts;
+export const getPostsStatus = (state) => state.posts.status;
+export const getPostsError = (state) => state.posts.error;
 export const { postsAdded, reactionsAdded } = postsSlice.actions;
 export default postsSlice.reducer;
