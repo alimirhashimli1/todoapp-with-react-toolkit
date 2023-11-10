@@ -12,7 +12,6 @@ const AddPostForm = () => {
 
   const users = useSelector(selectAllUsers);
 
-  const onAuthorChanged = (e) => setUserId(e.target.value);
 
   const onSavePostClicked = () => {
     if (title && content) {
@@ -42,6 +41,7 @@ const AddPostForm = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+         
         <label htmlFor="">Author:</label>
         <select
           id="post Author"

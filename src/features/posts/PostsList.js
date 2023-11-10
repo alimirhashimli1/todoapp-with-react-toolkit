@@ -10,7 +10,6 @@ import React from 'react'
 const PostsList = () => {
     const posts = useSelector(selectAllPosts)
     const orderedPosts = posts.slice().sort((a,b) => b.date.localeCompare(a.date))
-    console.log(posts.slice().sort())
 
 
 
