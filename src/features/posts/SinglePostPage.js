@@ -5,8 +5,13 @@ import ReactionButtons from "./ReactionButtons";
 import { useSelector } from "react-redux";
 import { selectPostById } from "./postsSlice";
 
-const SinglePostPage = ({  }) => {
-    const post = useSelector(state => selectPostById(state, postId))
+import { useParams } from "react-router-dom";
+
+const SinglePostPage = () => {
+    const {postId} = useParams()
+
+
+    const post = useSelector(state => selectPostById(state, Number(postId)))
 
     if(!post){
         return (
