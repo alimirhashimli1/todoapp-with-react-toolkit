@@ -6,6 +6,7 @@ const initialState = {
   posts: [],
   status: "idle",
   error: null,
+  count: 0
 };
 
 const POSTS_URL = "https://jsonplaceholder.typicode.com/posts";
@@ -35,7 +36,8 @@ export const updatePost = createAsyncThunk("post/updatedPost", async (initialPos
     const response = await axios.put(`${POSTS_URL}/${id}`, initialPost)
     return response.data
   } catch (error) {
-    return error.message;
+    // return error.message;
+    return initialPost //only for testing Redux
   }
 })
 
@@ -56,29 +58,7 @@ const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    postsAdded: {
-      reducer(state, action) {
-        state.posts.push(action.payload);
-      },
-      prepare(title, content, userId) {
-        return {
-          payload: {
-            id: nanoid(),
-            title,
-            content,
-            date: new Date().toISOString(),
-            userId,
-            reactions: {
-              thumbsUp: 0,
-              wow: 0,
-              heart: 0,
-              rocket: 0,
-              coffee: 0,
-            },
-          },
-        };
-      },
-    },
+   
     reactionsAdded(state, action) {
       const { postId, reaction } = action.payload;
       const existingPost = state.posts.find((post) => post.id === postId);
@@ -86,6 +66,9 @@ const postsSlice = createSlice({
         existingPost.reactions[reaction]++;
       }
     },
+    increaseCount(state, action){
+      state.count = state.count + 1
+    }
   },
   extraReducers(builder){
     builder.addCase(fetchPosts.pending, (state, action) => {
@@ -152,10 +135,11 @@ const postsSlice = createSlice({
 export const selectAllPosts = (state) => state.posts.posts;
 export const getPostsStatus = (state) => state.posts.status;
 export const getPostsError = (state) => state.posts.error;
+export const getCount = (state) => state.posts.count;
 
 
 export const selectPostById = (state, postId) => 
 state.posts.posts.find(post => post.id === postId);
 
-export const { postsAdded, reactionsAdded } = postsSlice.actions;
+export const { increaseCount, reactionsAdded } = postsSlice.actions;
 export default postsSlice.reducer;
